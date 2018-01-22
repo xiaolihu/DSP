@@ -1,0 +1,122 @@
+// Example: Hello World 
+// Author: Xiaolin Huang
+// Purpose: Building Navtive C/C++ Software
+
+
+apply plugin: "cpp"
+apply plugin: "c"
+//apply plugin: 'windows-resources'
+
+defaultTasks 'build'
+
+import org.gradle.internal.os.OperatingSystem;
+
+task detectOS {
+    doFirst {
+	if (OperatingSystem.current().isMacOsX()) {
+	    println(OperatingSystem.current().getFamilyName())
+	} else {
+            println(OperatingSystem.current().isLinux())
+	}
+    }   
+}
+
+model {
+    toolChains {
+	gcc(Gcc) {
+	    // TODO Need Install Cross Compile Tools
+ 	    target 'arm'
+        }
+
+	clang(Clang) {
+	    target "Macx64"
+	}
+
+	visualCpp(VisualCpp) {
+	    // TODO
+	}
+    }
+
+    buildTypes {
+	debug
+	release 
+    } 
+
+    platforms {
+        Winx86 {
+	    architecture 'x86'
+	    operatingSystem 'windows'
+        }
+
+        Macx64 {
+	    architecture 'x86_64'
+	    operatingSystem 'darwin'
+        }
+        
+	arm {
+	    architecture 'arm'
+	    operatingSystem 'linux' 
+	}
+    
+    }
+
+    components {
+	resampler(NativeExecutableSpec) {
+	    targetPlatform 'Macx64'
+
+	    sources {
+                c {
+		    source {
+			srcDir "ppfir"
+			include "*.c"
+		    }
+		    exportedHeaders {
+			srcDir "ppfir"
+		    }
+		}
+            }
+
+	    binaries.all {
+		cCompiler.define 'DEBUG_ONLY'
+		if (toolChain in Clang && buildType == buildTypes.debug) {
+		    cCompiler.args '-ggdb', '-Werror', '-O2'
+     		}
+            }
+//            binaries.withType(SharedLibraryBinarySpec) {
+//		// rename shared library
+//		def outputFolder = sharedLibraryFile.parent
+//		sharedLibraryFile = "${outputFolder}/libhello.so"
+//		sharedLibraryLinkFile = sharedLibraryFile
+//            }
+
+        }
+
+	normcorr(NativeExecutableSpec) {
+	    targetPlatform 'Macx64'
+
+	    sources {
+                c {
+		    source {
+			srcDir "corr"
+			include "*.c"
+		    }
+		    exportedHeaders {
+			srcDir "corr"
+		    }
+		}
+            }
+
+	    binaries.all {
+		cCompiler.define 'DEBUG_ONLY'
+                cCompiler.args '-O2'
+		if (toolChain in Clang && buildType == buildTypes.debug) {
+		    cCompiler.args '-ggdb', '-Werror'
+     		}
+                 
+                linker.args "-lm"
+            }
+
+        }
+
+    }
+}
