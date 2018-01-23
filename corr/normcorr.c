@@ -40,9 +40,9 @@ bool normcorr(short *refSig, short *testSig, uint32_t corrLength)
         xn = refSig;
 	yn = testSig + d; // shift d sample
     	for (j = 0; j < corrLength; j++) {
-           sum += xn[j] * yn[j]; //sum{ x[n] * y[n] }
+           sum += *xn++ * *yn++; //sum{ x[n] * y[n] }
 	}
-        xcorr[i] = sum;
+        xcorr[i] = sum / corrLength;
 	//printf("xcorr[%d]: %lf \n", i, sum);
     }
 
@@ -53,7 +53,7 @@ bool normcorr(short *refSig, short *testSig, uint32_t corrLength)
             xcorrMaxIndex = i;
         }
     }
-
+    //printf("peak point %d: %f \n", xcorrMaxIndex, xcorr[xcorrMaxIndex]);
     // normalize cross-correlation
     xn = refSig;
     yn = &testSig[xcorrMaxIndex];
@@ -61,12 +61,15 @@ bool normcorr(short *refSig, short *testSig, uint32_t corrLength)
         sumX += xn[j] * xn[j];
         sumY += yn[j] * yn[j];
     }
+    sumX = sumX / corrLength;
+    sumY = sumY / corrLength;
 
+    //printf("sumX:%f, sumY:%f \n", sumX, sumY);
     if (sumX != 0 && sumY != 0) {
         normxcorr = xcorr[xcorrMaxIndex] / sqrt(sumX * sumY);
     }
 
-    //printf("start to determine if similar %lf! \n", normxcorr); 
+    //printf("start to determine if similar %f! \n", normxcorr);
     if ( fabs(normxcorr) > 0.75 && fabs(normxcorr) <= 1.0) {
        return true;
     } else {

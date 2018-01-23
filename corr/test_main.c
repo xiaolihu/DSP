@@ -55,7 +55,7 @@ int main()
        pRefSig += SYSTEM_PCM_LEN>>1; 
     }
     //simply time domain shift to generate test signals
-    printf("readLen %d \n", readLen);
+    //printf("readLen %d \n", readLen);
     memcpy(testSig + SHIFT_IN_SAMPLES, refSig, readLen);
 
     //fwrite(testSig, 1, readLen + SHIFT_IN_SAMPLES * sizeof(short), pTestFile); 
@@ -64,7 +64,7 @@ int main()
     isSimilar = normcorr(refSig + IGNORE_IN_SAMPLES,
                          testSig + IGNORE_IN_SAMPLES,
 			 CORR_LEN_IN_SAMPLES);
-    printf("Two signals is %s similar. \n", isSimilar ? "Strongly" : "Not");
+    printf("Two signals shape is %s similar. \n", isSimilar ? "Strongly" : "Not");
 #endif
     fclose(pRefFile);
     fclose(pTestFile);
