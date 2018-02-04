@@ -16,7 +16,7 @@ int main()
     short *pRefSig = NULL;
     short *testSig = NULL;
 
-    char refFileName[256] = "speech1_f1_16_16.pcm"; // 16K 16bit
+    char refFileName[256] = "speech1_m1_16_16.pcm"; // 16K 16bit
     char testFileName[256] = "test.pcm";
 
     int readLen = 0;
@@ -56,10 +56,10 @@ int main()
     }
     //simply time domain shift to generate test signals
     //printf("readLen %d \n", readLen);
-    memcpy(testSig + SHIFT_IN_SAMPLES, refSig, readLen);
+    memcpy(testSig + 320, refSig, readLen);
 
     //fwrite(testSig, 1, readLen + SHIFT_IN_SAMPLES * sizeof(short), pTestFile); 
-    //fwrite(refSig, 1, readLen, pTestFile); 
+    fwrite(refSig + 320, 1, readLen, pTestFile); 
 #if 1
     isSimilar = normcorr(refSig + IGNORE_IN_SAMPLES,
                          testSig + IGNORE_IN_SAMPLES,

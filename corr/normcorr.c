@@ -3,6 +3,7 @@
 
 #include<math.h>
 #include<stdio.h>
+#include<stdlib.h>
 #include<stdbool.h>
 #include<stdint.h>
 
@@ -26,7 +27,7 @@
 
 bool normcorr(short *refSig, short *testSig, uint32_t corrLength)
 {
-    double xcorr[WIN_LEN];
+    double *xcorr = NULL;
     double sum, sumX, sumY;
     short *xn, *yn;
     double xcorrMax = 0;
@@ -34,6 +35,7 @@ bool normcorr(short *refSig, short *testSig, uint32_t corrLength)
     uint32_t xcorrMaxIndex = 0;
     int i, j, d;
 
+    xcorr = (double *)calloc(WIN_LEN, sizeof(double));
     // TIME Domain correlation
     for (d = 0, i = 0; d < WIN_LEN; d++, i++ ) {
         sum = 0.0;
@@ -68,6 +70,8 @@ bool normcorr(short *refSig, short *testSig, uint32_t corrLength)
     if (sumX != 0 && sumY != 0) {
         normxcorr = xcorr[xcorrMaxIndex] / sqrt(sumX * sumY);
     }
+    
+    free(xcorr);
 
     //printf("start to determine if similar %f! \n", normxcorr);
     if ( fabs(normxcorr) > 0.75 && fabs(normxcorr) <= 1.0) {
