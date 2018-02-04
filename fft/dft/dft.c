@@ -7,6 +7,10 @@
 /* @brief original dft process per mathmatical formula
  *
  * Y[m] = sum { X[n] (cos(2 * PI * n * m / N) - jsin(2 * PI * n * m / N)) }
+ * X[n] = Real[2 * n] + jImag[2 * n]]
+ *
+ * Real(Y[m]) = y[2 * m]     = x[2 * n] * cosf() + x[2 * n + 1] * sinf()
+ * Imag(Y[m]) = y[2 * m + 1] = x[2 * n + 1] * cosf() - x[2 * n] * sinf()
  *
  * @param[in]   x  pointer of complex input smaples(2 * n is real part, 2 * n +1 is image) in time domain
  * @param[out]  y  pointer of dft output sequences in frequency domain
