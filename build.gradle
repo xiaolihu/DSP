@@ -9,23 +9,24 @@ apply plugin: "c"
 
 defaultTasks 'build'
 
-import org.gradle.internal.os.OperatingSystem;
+//import org.gradle.internal.os.OperatingSystem;
 
-task detectOS {
-    doFirst {
-	if (OperatingSystem.current().isMacOsX()) {
-	    println(OperatingSystem.current().getFamilyName())
-	} else {
-            println(OperatingSystem.current().isLinux())
-	}
-    }   
-}
+//task detectOS {
+//    doFirst {
+//	if (OperatingSystem.current().isMacOsX()) {
+//	    println(OperatingSystem.current().getFamilyName())
+//	} else {
+//            println(OperatingSystem.current().isLinux())
+//	}
+//    }   
+//}
 
 model {
     toolChains {
 	gcc(Gcc) {
 	    // TODO Need Install Cross Compile Tools
  	    target 'arm'
+	    //target "Macx64"
         }
 
 	clang(Clang) {
