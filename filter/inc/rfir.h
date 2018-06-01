@@ -18,7 +18,7 @@ void deinitRFirFilter(firFilter_t *pFir);
 /* @brief General compute FIR filter, input #sampleCnt samples to filter out
  *        desired band singals. It can be applied to LPF, HPF, BPF for single
  *        rate decimator/interpolator or FIR-EQ in direct type. y[k] = x[k] * h[k]
- * 
+ *
  * @param inBuf[in]      - point to where input samples stored, x[0], x[1], ... x[n-1]
  *        coefBuf[in]    - point to where filter coefficients stored, h[k]
  *        outBuf[out]    - point to where filtered singals put to, y[n]
@@ -36,6 +36,6 @@ void computeRFir(short *inBuf,
                  int decFactor,
                  int strideStep);
 
-#endif 
+#endif
 
 #endif

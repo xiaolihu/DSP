@@ -29,8 +29,8 @@ void iir_biquad(float *restrict x, const float *b, const float *a, float *restri
 
     for (i = 0; i < n; i++) {
         y[i] = b0 * x[i] + s0;
-	s0 = x[i] * b1 - y[i] * a1 + s1;
-	s1 = x[i] * b2 - y[i] * a2;
+        s0 = x[i] * b1 - y[i] * a1 + s1;
+        s1 = x[i] * b2 - y[i] * a2;
     }
 
     s[0] = s0;
@@ -52,9 +52,9 @@ void iir_biquad_inplace(float *restrict x, const float *b, const float *a, float
 
     for (i = 0; i < n; i++) {
         y_i = b0 * x[i] + s0;
-	s0 = x[i] * b1 - y_i * a1 + s1;
-	s1 = x[i] * b2 - y_i * a2;
-	x[i] = y_i; // store filtered data
+        s0 = x[i] * b1 - y_i * a1 + s1;
+        s1 = x[i] * b2 - y_i * a2;
+        x[i] = y_i; // store filtered data
     }
 
     s[0] = s0;

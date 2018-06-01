@@ -44,19 +44,19 @@ void computeRFir(short *inBuf,
             sum += *xPtr++ * *coefPtr++;
         }
 
-	sum >>= 15;
-        //saturate 
-	if (sum > 32767) {
+        sum >>= 15;
+        //saturate
+        if (sum > 32767) {
             sum = 32767;
         } else if (sum < -32768) {
             sum = -32768;
         }
 
-	*outBuf = (short)sum;
-	outBuf += strideStep;
+        *outBuf = (short)sum;
+        outBuf += strideStep;
 
-	xPtr = inBuf + decFactor; // do decimation before filtering if decfactore > 1
-	coefPtr = coefBuf;
+        xPtr = inBuf + decFactor; // do decimation before filtering if decfactore > 1
+        coefPtr = coefBuf;
     }
 }
 
