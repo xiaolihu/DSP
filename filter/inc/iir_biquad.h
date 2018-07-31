@@ -1,6 +1,8 @@
 #ifndef _IIR_BIQUAD_H_
 #define _IIR_BIQUAD_H_
 
+#include <stdint.h>
+
 #define _FLOAT_POINT_
 // float point version
 #ifdef _FLOAT_POINT_
@@ -25,5 +27,8 @@ void iir_biquad_inplace(float *restrict x,
                         int n);
 
 #endif
+
+// Fixed-point input/output, but coefficients are float point
+void iir_biquad_fix(iir_biquad_t *pIIRBiquad, int16_t *in, int16_t *out, int blockSize);
 
 #endif
